@@ -548,10 +548,14 @@ a {
     gap: 8px;
     font-size: 0.8rem;
     color: var(--text-secondary);
-    padding: 6px 14px;
+    padding: 8px 14px;
     background: var(--glass-bg);
     border-radius: var(--radius-sm);
     border: 1px solid var(--glass-border);
+}
+
+.trust-emoji {
+    font-size: 1.1rem;
 }
 
 .trust-svg {
@@ -592,18 +596,16 @@ a {
     background: var(--bg-tertiary);
 }
 
-.artisan-image-inner {
+.artisan-img {
     width: 100%;
     height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    transition: transform 0.3s ease;
 }
 
-.artisan-image svg {
-    width: 70%;
-    height: 70%;
-    opacity: 0.5;
+.artisan-image:hover .artisan-img {
+    transform: scale(1.02);
 }
 
 .artisan-content {
@@ -727,7 +729,34 @@ a {
     height: 160px;
     overflow: hidden;
     background: var(--bg-tertiary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.card-visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+    height: 100%;
+    padding: 20px;
+}
+
+.visual-emoji {
+    font-size: 3.5rem;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+    transition: transform 0.3s ease;
+}
+
+.card-service:hover .visual-emoji {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.ethereal-visual { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+.mineral-visual { background: linear-gradient(135deg, #1f1f2e 0%, #2d2d44 100%); }
+.forged-visual { background: linear-gradient(135deg, #2a2a2a 0%, #3a3a3a 100%); }
 
 .card-image-inner {
     width: 100%;
