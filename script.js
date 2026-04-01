@@ -1,6 +1,6 @@
 /**
- * Alquimia Manual - Interactivity Script
- * Animaciones, scroll effects y interacciones
+ * Alquimia Manual - Interactivity Script v2
+ * Animaciones, scroll effects, FAQ y Translator
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,7 +11,30 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     initMobileNav();
     initContactForm();
+    initTranslatorStyle();
 });
+
+/**
+ * Translator - Ensure widget is styled properly
+ */
+function initTranslatorStyle() {
+    const observer = new MutationObserver(() => {
+        const widget = document.querySelector('.translator-widget');
+        if (widget) {
+            const select = widget.querySelector('select');
+            if (select) {
+                select.style.background = 'transparent';
+                select.style.border = 'none';
+                select.style.color = '#C4B8A8';
+                select.style.fontFamily = "'Syne', sans-serif";
+                select.style.fontSize = '13px';
+                select.style.padding = '4px';
+            }
+        }
+    });
+    
+    observer.observe(document.body, { childList: true, subtree: true });
+}
 
 /**
  * Navbar scroll effect
@@ -40,7 +63,7 @@ function initParticles() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
     
-    const particleCount = 20;
+    const particleCount = 25;
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -132,7 +155,7 @@ function initScrollAnimations() {
                 const heroVisual = document.querySelector('.hero-visual');
                 
                 if (heroVisual) {
-                    heroVisual.style.transform = `translateY(${scrolled * 0.1}px)`;
+                    heroVisual.style.transform = `translateY(${scrolled * 0.05}px)`;
                 }
                 
                 ticking = false;
@@ -144,7 +167,7 @@ function initScrollAnimations() {
 }
 
 /**
- * FAQ accordion functionality
+ * FAQ accordion functionality with conversion focus
  */
 function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
@@ -207,7 +230,7 @@ function initMobileNav() {
 }
 
 /**
- * Contact form handling
+ * Contact form handling with conversion tracking
  */
 function initContactForm() {
     const form = document.getElementById('contactForm');
@@ -221,7 +244,10 @@ function initContactForm() {
             const email = document.getElementById('email').value;
             const message = document.getElementById('message').value;
             
-            // Show success message (in production, send to backend)
+            // Track conversion (in production, send to analytics)
+            console.log('Conversion: Contact form submitted', { name, email, message });
+            
+            // Show success message
             alert(`¡Gracias ${name}! Tu mensaje ha sido enviado. Te contactaremos pronto a ${email}.`);
             
             form.reset();
@@ -231,13 +257,16 @@ function initContactForm() {
     if (whatsappBtn) {
         whatsappBtn.addEventListener('click', (e) => {
             e.preventDefault();
+            // Track WhatsApp click
+            console.log('Conversion: WhatsApp click');
+            
             // Placeholder for WhatsApp integration
             const phoneNumber = 'TU_NUMERO_AQUI'; // Replace with actual number
-            const message = 'Hola! Estoy interesada en conocer más sobre las piezas de Alquimia Manual';
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            const message = encodeURIComponent('Hola! Estoy interesada en conocer más sobre las piezas de Alquimia Manual');
+            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
             
             // For demo, show alert
-            alert('WhatsApp: Reemplaza "TU_NUMERO_AQUI" en script.js con tu número real');
+            alert('⚠️ Configura tu número de WhatsApp en script.js línea ~95');
         });
     }
 }
@@ -273,7 +302,7 @@ style.textContent = `
     @media (max-width: 767px) {
         .nav-links {
             position: fixed;
-            top: 70px;
+            top: 60px;
             left: 0;
             width: 100%;
             background: rgba(13, 11, 9, 0.98);
@@ -295,14 +324,61 @@ style.textContent = `
         }
         
         .nav-link {
-            padding: 16px 0;
+            padding: 14px 0;
             border-bottom: 1px solid var(--glass-border);
+            font-size: 1rem;
         }
         
         .nav-link.cta-link {
             margin-top: 16px;
             text-align: center;
         }
+    }
+    
+    /* Google Translate Widget Styles */
+    .goog-te-gadget {
+        font-family: 'Syne', sans-serif !important;
+    }
+    
+    .goog-te-gadget-simple {
+        background: transparent !important;
+        border: none !important;
+        padding: 4px 8px !important;
+    }
+    
+    .goog-te-gadget-simple span {
+        color: #C4B8A8 !important;
+    }
+    
+    .goog-te-gadget-simple .goog-te-menu-value {
+        color: #C4B8A8 !important;
+    }
+    
+    .skiptranslate iframe {
+        display: none !important;
+    }
+    
+    body > .skiptranslate {
+        display: none !important;
+    }
+    
+    #google_translate_element {
+        position: relative;
+    }
+    
+    #google_translate_element select {
+        background: transparent !important;
+        border: 1px solid rgba(166, 123, 91, 0.3) !important;
+        border-radius: 6px !important;
+        color: #C4B8A8 !important;
+        padding: 6px 12px !important;
+        font-family: 'Syne', sans-serif !important;
+        cursor: pointer;
+    }
+    
+    #google_translate_element select:focus {
+        outline: none;
+        border-color: #A67B5B !important;
     }
 `;
 document.head.appendChild(style);
