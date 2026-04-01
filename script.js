@@ -1,6 +1,6 @@
 /**
- * Alquimia Manual - Interactivity Script v2
- * Animaciones, scroll effects, FAQ y Translator
+ * Alquimia Manual - Interactivity Script v3
+ * Traductor funcionando, FAQ colapsable, imágenes
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,29 +11,24 @@ document.addEventListener('DOMContentLoaded', () => {
     initFAQ();
     initMobileNav();
     initContactForm();
-    initTranslatorStyle();
+    initTranslator();
 });
 
 /**
- * Translator - Ensure widget is styled properly
+ * Translator - Use Google's widget properly
  */
-function initTranslatorStyle() {
-    const observer = new MutationObserver(() => {
-        const widget = document.querySelector('.translator-widget');
-        if (widget) {
-            const select = widget.querySelector('select');
-            if (select) {
-                select.style.background = 'transparent';
-                select.style.border = 'none';
-                select.style.color = '#C4B8A8';
-                select.style.fontFamily = "'Syne', sans-serif";
-                select.style.fontSize = '13px';
-                select.style.padding = '4px';
-            }
+function initTranslator() {
+    // Force reload if needed
+    setTimeout(() => {
+        const select = document.querySelector('.goog-te-combo');
+        if (select) {
+            select.style.background = '#232019';
+            select.style.color = '#C4B8A8';
+            select.style.border = '1px solid rgba(166, 123, 91, 0.3)';
+            select.style.borderRadius = '6px';
+            select.style.padding = '8px 12px';
         }
-    });
-    
-    observer.observe(document.body, { childList: true, subtree: true });
+    }, 2000);
 }
 
 /**
@@ -63,7 +58,7 @@ function initParticles() {
     const particlesContainer = document.getElementById('particles');
     if (!particlesContainer) return;
     
-    const particleCount = 25;
+    const particleCount = 20;
     
     for (let i = 0; i < particleCount; i++) {
         const particle = document.createElement('div');
@@ -122,7 +117,7 @@ function initCounters() {
  * Scroll reveal animations
  */
 function initScrollAnimations() {
-    const revealElements = document.querySelectorAll('.service-card, .gallery-item, .process-step, .testimonial-card, .faq-item');
+    const revealElements = document.querySelectorAll('.service-card, .gallery-item, .process-step');
     
     const observerOptions = {
         threshold: 0.1,
@@ -144,30 +139,10 @@ function initScrollAnimations() {
         el.classList.add('reveal');
         revealObserver.observe(el);
     });
-    
-    // Parallax effect on scroll
-    let ticking = false;
-    
-    window.addEventListener('scroll', () => {
-        if (!ticking) {
-            window.requestAnimationFrame(() => {
-                const scrolled = window.pageYOffset;
-                const heroVisual = document.querySelector('.hero-visual');
-                
-                if (heroVisual) {
-                    heroVisual.style.transform = `translateY(${scrolled * 0.05}px)`;
-                }
-                
-                ticking = false;
-            });
-            
-            ticking = true;
-        }
-    });
 }
 
 /**
- * FAQ accordion functionality with conversion focus
+ * FAQ accordion - solo una respuesta abierta a la vez
  */
 function initFAQ() {
     const faqItems = document.querySelectorAll('.faq-item');
@@ -178,10 +153,10 @@ function initFAQ() {
         question.addEventListener('click', () => {
             const isActive = item.classList.contains('active');
             
-            // Close all items
+            // Cerrar todas
             faqItems.forEach(i => i.classList.remove('active'));
             
-            // Open clicked item if it wasn't active
+            // Abrir la clickeada si no estaba activa
             if (!isActive) {
                 item.classList.add('active');
             }
@@ -201,7 +176,6 @@ function initMobileNav() {
             navLinks.classList.toggle('active');
             toggle.classList.toggle('active');
             
-            // Animate toggle
             const spans = toggle.querySelectorAll('span');
             if (toggle.classList.contains('active')) {
                 spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
@@ -213,24 +187,11 @@ function initMobileNav() {
                 spans[2].style.transform = 'none';
             }
         });
-        
-        // Close menu on link click
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-                toggle.classList.remove('active');
-                
-                const spans = toggle.querySelectorAll('span');
-                spans[0].style.transform = 'none';
-                spans[1].style.opacity = '1';
-                spans[2].style.transform = 'none';
-            });
-        });
     }
 }
 
 /**
- * Contact form handling with conversion tracking
+ * Contact form handling
  */
 function initContactForm() {
     const form = document.getElementById('contactForm');
@@ -242,14 +203,8 @@ function initContactForm() {
             
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
-            const message = document.getElementById('message').value;
             
-            // Track conversion (in production, send to analytics)
-            console.log('Conversion: Contact form submitted', { name, email, message });
-            
-            // Show success message
-            alert(`¡Gracias ${name}! Tu mensaje ha sido enviado. Te contactaremos pronto a ${email}.`);
-            
+            alert(`¡Gracias ${name}! Tu mensaje ha sido enviado. Te contactaremos pronto.`);
             form.reset();
         });
     }
@@ -257,46 +212,28 @@ function initContactForm() {
     if (whatsappBtn) {
         whatsappBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            // Track WhatsApp click
-            console.log('Conversion: WhatsApp click');
-            
-            // Placeholder for WhatsApp integration
-            const phoneNumber = 'TU_NUMERO_AQUI'; // Replace with actual number
-            const message = encodeURIComponent('Hola! Estoy interesada en conocer más sobre las piezas de Alquimia Manual');
-            const whatsappUrl = `https://wa.me/${phoneNumber}?text=${message}`;
-            
-            // For demo, show alert
             alert('⚠️ Configura tu número de WhatsApp en script.js línea ~95');
         });
     }
 }
 
-/**
- * Smooth scroll for anchor links
- */
+// Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
         const href = this.getAttribute('href');
-        
         if (href !== '#') {
             e.preventDefault();
-            
             const target = document.querySelector(href);
-            
             if (target) {
                 const navHeight = document.querySelector('.navbar').offsetHeight;
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
             }
         }
     });
 });
 
-// Add CSS for mobile nav
+// CSS adicional
 const style = document.createElement('style');
 style.textContent = `
     @media (max-width: 767px) {
@@ -310,7 +247,6 @@ style.textContent = `
             flex-direction: column;
             padding: 20px;
             gap: 0;
-            border-bottom: 1px solid var(--glass-border);
             transform: translateY(-100%);
             opacity: 0;
             visibility: hidden;
@@ -326,59 +262,7 @@ style.textContent = `
         .nav-link {
             padding: 14px 0;
             border-bottom: 1px solid var(--glass-border);
-            font-size: 1rem;
         }
-        
-        .nav-link.cta-link {
-            margin-top: 16px;
-            text-align: center;
-        }
-    }
-    
-    /* Google Translate Widget Styles */
-    .goog-te-gadget {
-        font-family: 'Syne', sans-serif !important;
-    }
-    
-    .goog-te-gadget-simple {
-        background: transparent !important;
-        border: none !important;
-        padding: 4px 8px !important;
-    }
-    
-    .goog-te-gadget-simple span {
-        color: #C4B8A8 !important;
-    }
-    
-    .goog-te-gadget-simple .goog-te-menu-value {
-        color: #C4B8A8 !important;
-    }
-    
-    .skiptranslate iframe {
-        display: none !important;
-    }
-    
-    body > .skiptranslate {
-        display: none !important;
-    }
-    
-    #google_translate_element {
-        position: relative;
-    }
-    
-    #google_translate_element select {
-        background: transparent !important;
-        border: 1px solid rgba(166, 123, 91, 0.3) !important;
-        border-radius: 6px !important;
-        color: #C4B8A8 !important;
-        padding: 6px 12px !important;
-        font-family: 'Syne', sans-serif !important;
-        cursor: pointer;
-    }
-    
-    #google_translate_element select:focus {
-        outline: none;
-        border-color: #A67B5B !important;
     }
 `;
 document.head.appendChild(style);
