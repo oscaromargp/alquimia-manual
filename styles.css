@@ -293,11 +293,23 @@ a {
     height: 100%;
     background: linear-gradient(
         to bottom,
-        rgba(15, 13, 11, 0.7) 0%,
-        rgba(15, 13, 11, 0.5) 50%,
-        rgba(15, 13, 11, 0.7) 100%
+        rgba(15, 13, 11, 0.85) 0%,
+        rgba(15, 13, 11, 0.75) 50%,
+        rgba(15, 13, 11, 0.85) 100%
     );
     z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 550px;
+    background: rgba(15, 13, 11, 0.6);
+    padding: 32px;
+    border-radius: 16px;
+    border: 1px solid rgba(166, 123, 91, 0.15);
+    backdrop-filter: blur(8px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .hero-gradient {
@@ -362,6 +374,7 @@ a {
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.08;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
 .title-accent {
@@ -372,6 +385,7 @@ a {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
@@ -379,8 +393,9 @@ a {
     color: var(--text-secondary);
     margin-bottom: 28px;
     max-width: 460px;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1.75;
+    text-shadow: 0 1px 10px rgba(0, 0, 0, 0.5);
 }
 
 .hero-buttons {
