@@ -1,4 +1,9 @@
 # ✦ Alquimia Manual - Landing Page Premium
+<p align="center">
+  <img src="assets/banner.png" alt="Alquimia Manual" width="100%"/>
+</p>
+
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/Version-3.0.0-A67B5B?style=flat&logo=semantic-release" alt="Version">
@@ -471,3 +476,13 @@ Si este proyecto te fue útil, considera apoyarlo.
   <strong>A Dios, toda la gloria.</strong>
   <br/>
 </p>
+
+
+## 📸 Capturas de pantalla
+
+<p align="center">
+  <img src="assets/screenshot-1.png" alt="Captura del proyecto" width="700" style="border-radius:8px;"/>
+</p>
+
+> ¿No puedes ver la imagen? [Ver en el navegador](assets/)
+
